@@ -1,0 +1,27 @@
+task versionInfo() {
+    def buildNumber = System.currentTimeMillis()
+    String thisVersion  = "${project.version}." + buildNumber
+    println("Using version: " + thisVersion)
+    project.ext.set("releaseVersion", thisVersion)
+}
+
+uploadArchives {
+    dependsOn versionInfo
+    repositories.mavenDeployer {
+        repository(url: "") {
+            pom.groupId = groupId
+            pom.artifactId = artifactId
+            pom.version = releaseVersion
+        }
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom.groupId = groupId
+        pom.artifactId = artifactId
+        pom.version = releaseVersion
+    }
+}
+
+build.dependsOn versionInfo
