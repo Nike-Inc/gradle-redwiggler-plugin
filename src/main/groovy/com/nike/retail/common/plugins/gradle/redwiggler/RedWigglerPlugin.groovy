@@ -1,6 +1,6 @@
 package com.nike.retail.common.plugins.gradle.redwiggler
 
-import com.nike.retail.redwiggler.parse.APIReader
+import com.nike.retail.redwiggler.RedWiggler
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.slf4j.Logger
@@ -13,18 +13,25 @@ class RedWigglerPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         LOGGER.info('Running wiggler')
-        project.extensions.create('redwiggler', RedWigglerPluginExtension)
+
+        project.extensions.create('redwiggler', RedWigglerPluginExtension, project)
         project.task('runRedWigglerReport') << {
-            APIReader reader = new APIReader("${project.redwiggler.markdownFile}", "${project.redwiggler.dataDirectory}");
-            reader.validate();
-            reader.outputReport("${project.redwiggler.output}");
+            RedWiggler.validateResultsAgainstMarkdown(
+                    project.redwiggler.markdownFile,
+                    project.redwiggler.dataDirectory,
+                    project.redwiggler.output)
         }
     }
 }
 
 class RedWigglerPluginExtension {
-    String markdownFile
-    String dataDirectory
-    String output
-}
+    File markdownFile
+    File dataDirectory
+    File output
 
+    RedWigglerPluginExtension (Project project) {
+        this.output = new File(project.getBuildDir(), "redwiggler.html")
+        this.dataDirectory = new File(new File(project.getBuildDir(), "reports"), "tests")
+        this.markdownFile = new File(project.rootDir, "API.md")
+    }
+}
