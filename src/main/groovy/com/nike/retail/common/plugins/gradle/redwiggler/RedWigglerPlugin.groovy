@@ -15,18 +15,15 @@ class RedWigglerPlugin implements Plugin<Project> {
 
         project.extensions.create('redwiggler', RedWigglerPluginExtension, project)
         project.task('runRedWigglerReport') << {
-            RedWigglerPluginExtension ext = project.redwiggler;
-            RedWiggler.validateResultsAgainstMarkdown(
-                    ext.markdownFile,
-                    ext.dataDirectory,
-                    ext.output
-            )
+            RedWigglerPluginExtension ext = project.redwiggler
+            RedWiggler.validateResults(ext)
         }
     }
 }
 
 class RedWigglerPluginExtension {
     File markdownFile
+    File swaggerFile
     File dataDirectory
     File output
 
@@ -34,5 +31,6 @@ class RedWigglerPluginExtension {
         this.output = new File(project.getBuildDir(), "redwiggler.html")
         this.dataDirectory = new File(new File(project.getBuildDir(), "reports"), "tests")
         this.markdownFile = new File(project.rootDir, "API.md")
+        this.swaggerFile = new File(project.rootDir, "swagger.yaml")
     }
 }

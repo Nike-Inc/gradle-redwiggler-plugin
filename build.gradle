@@ -25,6 +25,7 @@ dependencies {
     compile "org.slf4j:slf4j-simple:1.7.5"
     compile "com.nike.redwiggler:redwiggler-core:$redwigglerVersion"
     compile "com.nike.redwiggler:redwiggler-blueprint:$redwigglerVersion"
+    compile "com.nike.redwiggler:redwiggler-swagger:$redwigglerVersion"
     compile "com.nike.redwiggler:redwiggler-html:$redwigglerVersion"
 }
 
