@@ -1,6 +1,5 @@
 package com.nike.retail.common.plugins.gradle.redwiggler
 
-import com.nike.retail.redwiggler.RedWiggler
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.slf4j.Logger
@@ -16,10 +15,12 @@ class RedWigglerPlugin implements Plugin<Project> {
 
         project.extensions.create('redwiggler', RedWigglerPluginExtension, project)
         project.task('runRedWigglerReport') << {
+            RedWigglerPluginExtension ext = project.redwiggler;
             RedWiggler.validateResultsAgainstMarkdown(
-                    project.redwiggler.markdownFile,
-                    project.redwiggler.dataDirectory,
-                    project.redwiggler.output)
+                    ext.markdownFile,
+                    ext.dataDirectory,
+                    ext.output
+            )
         }
     }
 }

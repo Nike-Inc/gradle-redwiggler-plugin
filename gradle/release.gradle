@@ -1,6 +1,11 @@
 task versionInfo() {
-    def buildNumber = System.currentTimeMillis()
-    String thisVersion  = "${project.version}." + buildNumber
+    String thisVersion;
+    if (project.version.endsWith("-SNAPSHOT")) {
+        thisVersion = project.version;
+    } else {
+        def buildNumber = System.currentTimeMillis()
+        thisVersion = "${project.version.substring(0, project.version.length() - "-SNAPSHOT".length())}." + buildNumber
+    }
     println("Using version: " + thisVersion)
     project.ext.set("releaseVersion", thisVersion)
 }
