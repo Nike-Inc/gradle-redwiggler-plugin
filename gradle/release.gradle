@@ -1,15 +1,6 @@
 task versionInfo() {
-    String thisVersion;
     def buildNumber = System.getenv("BUILD_NUMBER")
-    if (buildNumber == null) {
-        thisVersion = project.version;
-    } else {
-        if (project.version.endsWith("-SNAPSHOT")) {
-            thisVersion = "${project.version.substring(0, project.version.length() - "-SNAPSHOT".length())}." + buildNumber
-        } else {
-            thisVersion = project.version + "." + buildNumber;
-        }
-    }
+    String thisVersion = project.version + "." + buildNumber;
     println("Using version: " + thisVersion)
     project.ext.set("releaseVersion", thisVersion)
 }
