@@ -1,0 +1,50 @@
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+apply plugin: 'jacoco'
+
+checkstyle {
+    ignoreFailures = true
+    configFile = rootProject.file("${rootDir}/codequality/checkstyle.xml")
+    sourceSets = [ project.sourceSets.main ]
+    toolVersion = "6.14.1"
+}
+
+pmd {
+    toolVersion = "5.3.5"
+    sourceSets = [ project.sourceSets.main ]
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.withMessages = true
+    }
+}
+
+jacoco {
+    toolVersion = "0.7.4.201502262128"
+    reportsDir = file("$buildDir/reports/jacoco")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.destination "${buildDir}/reports/jacoco"
+    }
+}
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        classDumpFile = file("$buildDir/jacoco/classpathdumps")
+    }
+
+    finalizedBy(project.tasks.jacocoTestReport)
+}
+
+pmd {
+    toolVersion = "5.3.5"
+}
+
+
