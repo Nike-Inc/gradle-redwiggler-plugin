@@ -17,7 +17,7 @@ apply from: file('gradle/release.gradle')
 apply from: file('gradle/convention.gradle')
 apply from: file('gradle/check.gradle')
 
-def redwigglerVersion = "0.5.1493833811735"
+def redwigglerVersion = "0.5.1494005776809"
 
 dependencies {
     compile gradleApi()
