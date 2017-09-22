@@ -26,7 +26,6 @@ class RedWigglerPlugin implements Plugin<Project> {
                     new HtmlReportProcessor(ext.output)
 
             )
-            ResultValidator.validateResults(ext)
         }
     }
 }

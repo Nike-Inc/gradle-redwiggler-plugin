@@ -1,6 +1,7 @@
 plugins {
     id 'net.saliman.cobertura' version '2.2.7'
     id "com.github.nwillc.buildinfo" version "0.1.2"
+    id "com.jfrog.bintray" version "1.7.3"
 }
 
 repositories {
@@ -16,9 +17,9 @@ apply plugin: 'groovy'
 
 group = 'com.nike.redwiggler.gradle'
 
-apply from: file('gradle/release.gradle')
 apply from: file('gradle/convention.gradle')
 apply from: file('gradle/check.gradle')
+apply from: file('gradle/release.gradle')
 
 def redwigglerVersion = "0.5.0"
 
@@ -27,10 +28,10 @@ dependencies {
     compile localGroovy()
     compile "org.slf4j:jcl-over-slf4j:1.7.5"
     compile "org.slf4j:slf4j-simple:1.7.5"
-    compile 'org.scala-lang:scala-library:2.12.3'
-    compile "com.nike.redwiggler:redwiggler-core_2.12:$redwigglerVersion"
-    compile "com.nike.redwiggler:redwiggler-swagger_2.12:$redwigglerVersion"
-    compile "com.nike.redwiggler:redwiggler-reports-html_2.12:$redwigglerVersion"
+    compile 'org.scala-lang:scala-library:2.11.8'
+    compile "com.nike.redwiggler:redwiggler-core_2.11:$redwigglerVersion"
+    compile "com.nike.redwiggler:redwiggler-swagger_2.11:$redwigglerVersion"
+    compile "com.nike.redwiggler:redwiggler-reports-html_2.11:$redwigglerVersion"
 }
 
 tasks.withType(JavaCompile) {
@@ -56,3 +57,4 @@ sourceSets {
     output.dir("$buildDir/generated-resources", builtBy: buildInfo)
   }
 }
+

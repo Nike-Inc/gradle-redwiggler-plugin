@@ -28,18 +28,12 @@ plugins.withType(JavaPlugin) {
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
         from sourceSets.main.allSource
-        version = "$releaseVersion"
     }
 
     // Create Javadoc Jars
     task javadocJar(type: Jar, dependsOn: javadoc) {
         classifier = 'javadoc'
         from javadoc.destinationDir
-        version = "$releaseVersion"
-    }
-
-    jar {
-        version = "${releaseVersion}"
     }
 
     artifacts {
@@ -50,5 +44,5 @@ plugins.withType(JavaPlugin) {
 
 // Generates Gradle Wrapper
 task createWrapper(type: Wrapper) {
-    gradleVersion = '2.2.1'
+    gradleVersion = '4.2'
 }
