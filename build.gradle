@@ -4,27 +4,33 @@ plugins {
 }
 
 repositories {
-    mavenLocal()
+    jcenter()
+    jcenter {
+      artifactUrls = ["https://dl.bintray.com/nike/maven/"]
+    }
 }
 
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'groovy'
 
-group = 'com.nike.redwiggler'
+group = 'com.nike.redwiggler.gradle'
 
 apply from: file('gradle/release.gradle')
 apply from: file('gradle/convention.gradle')
 apply from: file('gradle/check.gradle')
 
-def redwigglerVersion = "0.5.1494005776809"
+def redwigglerVersion = "0.5.0"
 
 dependencies {
     compile gradleApi()
     compile localGroovy()
     compile "org.slf4j:jcl-over-slf4j:1.7.5"
     compile "org.slf4j:slf4j-simple:1.7.5"
-    compile "com.nike.redwiggler:redwiggler-common:$redwigglerVersion"
+    compile 'org.scala-lang:scala-library:2.12.3'
+    compile "com.nike.redwiggler:redwiggler-core_2.12:$redwigglerVersion"
+    compile "com.nike.redwiggler:redwiggler-swagger_2.12:$redwigglerVersion"
+    compile "com.nike.redwiggler:redwiggler-reports-html_2.12:$redwigglerVersion"
 }
 
 tasks.withType(JavaCompile) {
@@ -33,7 +39,7 @@ tasks.withType(JavaCompile) {
 }
 
 buildinfo {
-    output = "$buildDir/generated-resources/com/nike/redwiggler/plugin/build.json"
+    output = "$buildDir/generated-resources/com/nike/redwiggler/gradle/build.json"
     custom["redwigglerVersion"] = redwigglerVersion;
 }
 

@@ -1,7 +1,9 @@
-package com.nike.retail.common.plugins.gradle.redwiggler
+package com.nike.redwiggler.gradle
 
-import com.nike.redwiggler.common.Configuration
-import com.nike.redwiggler.common.ResultValidator
+import com.nike.redwiggler.core.GlobEndpointCallProvider
+import com.nike.redwiggler.core.Redwiggler
+import com.nike.redwiggler.html.HtmlReportProcessor
+import com.nike.redwiggler.swagger.SwaggerEndpointSpecificationProvider
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.slf4j.Logger
@@ -18,13 +20,18 @@ class RedWigglerPlugin implements Plugin<Project> {
         project.extensions.create('redwiggler', RedWigglerPluginExtension, project)
         project.task('runRedWigglerReport') << {
             RedWigglerPluginExtension ext = project.redwiggler
+            Redwiggler.apply(
+                    new GlobEndpointCallProvider(ext.dataDirectory, ".*.json"),
+                    new SwaggerEndpointSpecificationProvider(ext.swaggerFile),
+                    new HtmlReportProcessor(ext.output)
+
+            )
             ResultValidator.validateResults(ext)
         }
     }
 }
 
-class RedWigglerPluginExtension implements Configuration {
-    File markdownFile
+class RedWigglerPluginExtension {
     File swaggerFile
     File dataDirectory
     File output
@@ -32,7 +39,6 @@ class RedWigglerPluginExtension implements Configuration {
     RedWigglerPluginExtension (Project project) {
         this.output = new File(project.getBuildDir(), "redwiggler.html")
         this.dataDirectory = new File(new File(project.getBuildDir(), "reports"), "tests")
-        this.markdownFile = new File(project.rootDir, "API.md")
         this.swaggerFile = new File(project.rootDir, "swagger.yaml")
     }
 }

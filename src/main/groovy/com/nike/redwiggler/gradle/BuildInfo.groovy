@@ -1,4 +1,4 @@
-package com.nike.retail.common.plugins.gradle.redwiggler
+package com.nike.redwiggler.gradle
 
 import groovy.json.JsonSlurper
 
@@ -8,7 +8,7 @@ class BuildInfo {
 
     BuildInfo() {
         def slurper = new JsonSlurper()
-        def is = getClass().getResourceAsStream("/com/nike/redwiggler/plugin/build.json")
+        def is = getClass().getResourceAsStream("/com/nike/redwiggler/gradle/build.json")
         result = slurper.parse(is as InputStream)
     }
 
