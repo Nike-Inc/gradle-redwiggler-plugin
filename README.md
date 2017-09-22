@@ -1,5 +1,7 @@
 # RedWiggler contract testing plugin
 
+https://travis-ci.com/Nike-Inc/gradle-redwiggler-plugin.svg?token=PmECSWCH8LFEKNdzr64F&branch=master
+
 ## Add to the [Classpath](https://docs.gradle.org/current/userguide/organizing_build_logic.html) of Gradle Build Script
 Add the library `'redwiggler-gradle-plugin'` to the classpath of gradle build script
 
