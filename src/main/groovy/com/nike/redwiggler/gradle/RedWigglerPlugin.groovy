@@ -54,4 +54,8 @@ class RedWigglerPluginExtension {
         this.swaggerFile = new File(project.rootDir, "swagger.yaml")
         this.toolVersion = "0.5.1"
     }
+
+    def dependency(String name) {
+        return [group: 'com.nike.redwiggler', name: 'redwiggler-' + name + '_2.12', version: toolVersion]
+    }
 }

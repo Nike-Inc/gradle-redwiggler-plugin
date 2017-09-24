@@ -22,6 +22,11 @@ class RedWigglerPluginSpec extends Specification {
         Files.copy(getClass().getResourceAsStream(source), new File(testProjectDir.root, "swagger.yaml").toPath())
     }
 
+    def javaSource(String source) {
+        def java = testProjectDir.newFolder("src", "main", "java")
+        Files.copy(getClass().getResourceAsStream(source), new File(java, source).toPath())
+    }
+
     def "sane defaults swith swagger.yaml"() {
         given:
         swaggerFile "simpleSwagger.yaml"
@@ -48,6 +53,37 @@ class RedWigglerPluginSpec extends Specification {
         then:
         result.task(":runRedWigglerReport").outcome == SUCCESS
         outputFile.exists()
+
+        where:
+        gradleVersion << ['4.0', '4.1', '4.2']
+    }
+
+    def "build dependency with sane defaults"() {
+        given:
+        javaSource "TestJavaRestAssuredIntegration.java"
+        buildFile << """
+            plugins {
+                id 'com.nike.redwiggler'
+            }
+            repositories {
+                jcenter()
+            }
+            apply plugin: 'java'
+            dependencies {
+                compile redwiggler.dependency("restassured")
+            }
+        """
+
+        when:
+        def result = GradleRunner.create()
+                .withGradleVersion(gradleVersion)
+                .withProjectDir(testProjectDir.root)
+                .withArguments('compileJava')
+                .withPluginClasspath()
+                .build()
+
+        then:
+        result.task(":compileJava").outcome == SUCCESS
 
         where:
         gradleVersion << ['4.0', '4.1', '4.2']
