@@ -1,0 +1,25 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Example1
+  description: Example1
+schemes:
+  - https
+consumes:
+  - application/json;charset=utf-8
+produces:
+  - application/json
+paths:
+  /:
+    get:
+        description: Searches
+        responses:
+          200:
+            description: Success
+            schema:
+              $ref: "#/definitions/SearchResponse"
+definitions:
+  SearchResponse:
+    properties:
+      pages:
+          type: string

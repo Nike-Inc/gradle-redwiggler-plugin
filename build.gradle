@@ -6,14 +6,12 @@ plugins {
 
 repositories {
     jcenter()
-    jcenter {
-      artifactUrls = ["https://dl.bintray.com/nike/maven/"]
-    }
 }
 
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'groovy'
+apply plugin: 'java-gradle-plugin'
 
 group = 'com.nike.redwiggler.gradle'
 
@@ -28,10 +26,10 @@ dependencies {
     compile localGroovy()
     compile "org.slf4j:jcl-over-slf4j:1.7.5"
     compile "org.slf4j:slf4j-simple:1.7.5"
-    compile 'org.scala-lang:scala-library:2.11.8'
-    compile "com.nike.redwiggler:redwiggler-core_2.11:$redwigglerVersion"
-    compile "com.nike.redwiggler:redwiggler-swagger_2.11:$redwigglerVersion"
-    compile "com.nike.redwiggler:redwiggler-reports-html_2.11:$redwigglerVersion"
+
+    testCompile("org.spockframework:spock-core:1.1-groovy-2.4") {
+        exclude module: 'groovy-all'
+    }
 }
 
 tasks.withType(JavaCompile) {
@@ -44,8 +42,10 @@ buildinfo {
     custom["redwigglerVersion"] = redwigglerVersion;
 }
 
-task createBuildInfoDir << {
-  (new File(buildinfo.output)).getParentFile().mkdirs()
+task createBuildInfoDir {
+    doLast {
+        (new File(buildinfo.output)).getParentFile().mkdirs()
+    }
 }
 
 buildInfo.dependsOn(createBuildInfoDir)
@@ -53,8 +53,8 @@ buildInfo.dependsOn(createBuildInfoDir)
 processResources.dependsOn buildInfo
 
 sourceSets {
-  main {
-    output.dir("$buildDir/generated-resources", builtBy: buildInfo)
-  }
+    main {
+        output.dir("$buildDir/generated-resources", builtBy: buildInfo)
+    }
 }
 
