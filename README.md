@@ -2,18 +2,20 @@
 
 [![Build Status](https://travis-ci.com/Nike-Inc/gradle-redwiggler-plugin.svg?token=PmECSWCH8LFEKNdzr64F&branch=master)](https://travis-ci.com/Nike-Inc/gradle-redwiggler-plugin)
 
+## Overview
+
+Plugin to integrate [RedWiggler](https://github.com/Nike-Inc/redwiggler) in a gradle build.
+
 ## Add to the [Classpath](https://docs.gradle.org/current/userguide/organizing_build_logic.html) of Gradle Build Script
 Add the library `'redwiggler-gradle-plugin'` to the classpath of gradle build script
 
     dependencies{
-        classpath 'com.nike.retail:redwiggler-gradle-plugin:1.+'
+        classpath 'com.nike.redwiggler.gradle:gradle-redwiggler-plugin:<version>'
     }
-    
-Please configure correct repositories as well.
     
 ## Apply Plugin
     
-    apply plugin: 'com.nike.retail.common.plugins.gradle.redwiggler'
+    apply plugin: 'com.nike.redwiggler'
 
 ## Provided Tasks
 
@@ -27,13 +29,13 @@ The configuration block is called "redwiggler" and accepts the following configu
 
 |Property Name   	| Description |Default Value  	|
 |---	|---	| --- |
-| markdownFile   	| The location of the API.md file. |
-| dataDirectory   	| The directory where test results are logged. |
-| output   	| The directory where the test report should be saved. |
+| swaggerFile | The location of the swagger.yaml file. | ./swagger.yaml |
+| dataDirectory   	| The directory where test results are logged. | build/redwiggler-data |
+| output   	| The directory where the test report should be saved. | build/redwiggler.html |
 
 # Releasing
 
-To release, tage version and version to new version. To release to bintray:
+To release, tag version and version to new version. To release to bintray:
 
 ```shell
 ./gradlew bintrayUpload
