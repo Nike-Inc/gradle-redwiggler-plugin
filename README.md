@@ -32,6 +32,7 @@ The configuration block is called "redwiggler" and accepts the following configu
 | swaggerFile | The location of the swagger.yaml file. | ./swagger.yaml |
 | dataDirectory   	| The directory where test results are logged. | build/redwiggler-data |
 | output   	| The directory where the test report should be saved. | build/redwiggler.html |
+| toolVersion | The version of RedWiggler to use. | 0.5.1 |
 
 # Releasing
 
