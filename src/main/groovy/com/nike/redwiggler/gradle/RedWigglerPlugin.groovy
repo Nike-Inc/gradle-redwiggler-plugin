@@ -22,6 +22,7 @@ class RedWigglerPlugin implements Plugin<Project> {
             project.dependencies {
                 redwiggler group: 'com.nike.redwiggler', name: 'redwiggler-swagger_2.12', version: ext.toolVersion
                 redwiggler group: 'com.nike.redwiggler', name: 'redwiggler-reports-html_2.12', version: ext.toolVersion
+                redwiggler group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
             }
 
             def resolvedConfiguration = project.configurations.redwiggler.resolvedConfiguration
