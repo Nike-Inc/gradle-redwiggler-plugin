@@ -11,7 +11,8 @@ import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
 class RedWigglerPluginSpec extends Specification {
 
-    @Rule final TemporaryFolder testProjectDir = new TemporaryFolder()
+    @Rule
+    final TemporaryFolder testProjectDir = new TemporaryFolder()
     File buildFile
 
     static def gradleVersions = ['3.3', '3.4', '3.5', '4.0', '4.1', '4.2']
@@ -20,8 +21,8 @@ class RedWigglerPluginSpec extends Specification {
         buildFile = testProjectDir.newFile('build.gradle')
     }
 
-    def swaggerFile(String source) {
-        Files.copy(getClass().getResourceAsStream(source), new File(testProjectDir.root, "swagger.yaml").toPath())
+    def swaggerFile(String source, String target) {
+        Files.copy(getClass().getResourceAsStream(source), new File(testProjectDir.root, target).toPath())
     }
 
     def javaSource(String source) {
@@ -29,9 +30,9 @@ class RedWigglerPluginSpec extends Specification {
         Files.copy(getClass().getResourceAsStream(source), new File(java, source).toPath())
     }
 
-    def "sane defaults swith swagger.yaml"() {
+    def "sane defaults with swagger.yaml"() {
         given:
-        swaggerFile "simpleSwagger.yaml"
+        swaggerFile("simpleSwagger.yaml", "swagger.yaml")
         def requestsDir = testProjectDir.newFolder("build", "redwiggler-data")
         def outputFile = new File(new File(testProjectDir.root, "build"), "redwiggler.html")
         buildFile << """
@@ -47,10 +48,43 @@ class RedWigglerPluginSpec extends Specification {
         def result = GradleRunner.create()
                 .withGradleVersion(gradleVersion)
                 .withProjectDir(testProjectDir.root)
-                .withArguments('runRedwigglerReport')
+                .withArguments('runRedwigglerReport', '--stacktrace')
                 .withPluginClasspath()
                 .build()
 
+
+        then:
+        result.task(":runRedWigglerReport").outcome == SUCCESS
+        outputFile.exists()
+
+        where:
+        gradleVersion << gradleVersions
+    }
+
+    def "custom swagger location"() {
+        given:
+        swaggerFile("simpleSwagger.yaml", "customSwaggerLocation.yaml")
+        def requestsDir = testProjectDir.newFolder("build", "redwiggler-data")
+        def outputFile = new File(new File(testProjectDir.root, "build"), "redwiggler.html")
+        buildFile << """
+            plugins {
+                id 'com.nike.redwiggler'
+            }
+            repositories {
+                jcenter()
+            }
+            redwiggler {
+                swaggerFile new File(new File("${testProjectDir.root}"), "customSwaggerLocation.yaml")
+            }
+        """
+
+        when:
+        def result = GradleRunner.create()
+                .withGradleVersion(gradleVersion)
+                .withProjectDir(testProjectDir.root)
+                .withArguments('runRedwigglerReport', '--stacktrace')
+                .withPluginClasspath()
+                .build()
 
         then:
         result.task(":runRedWigglerReport").outcome == SUCCESS
