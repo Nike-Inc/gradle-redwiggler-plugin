@@ -6,6 +6,10 @@
 
 Plugin to integrate [RedWiggler](https://github.com/Nike-Inc/redwiggler) in a gradle build.
 
+## Requirements
+
+This plugin requires gradle 3.3 or greater.
+
 ## Add to the [Classpath](https://docs.gradle.org/current/userguide/organizing_build_logic.html) of Gradle Build Script
 Add the library `'redwiggler-gradle-plugin'` to the classpath of gradle build script
 

@@ -14,6 +14,8 @@ class RedWigglerPluginSpec extends Specification {
     @Rule final TemporaryFolder testProjectDir = new TemporaryFolder()
     File buildFile
 
+    static def gradleVersions = ['3.3', '3.4', '3.5', '4.0', '4.1', '4.2']
+
     def setup() {
         buildFile = testProjectDir.newFile('build.gradle')
     }
@@ -55,7 +57,7 @@ class RedWigglerPluginSpec extends Specification {
         outputFile.exists()
 
         where:
-        gradleVersion << ['4.0', '4.1', '4.2']
+        gradleVersion << gradleVersions
     }
 
     def "build dependency with sane defaults"() {
@@ -86,6 +88,6 @@ class RedWigglerPluginSpec extends Specification {
         result.task(":compileJava").outcome == SUCCESS
 
         where:
-        gradleVersion << ['4.0', '4.1', '4.2']
+        gradleVersion << gradleVersions
     }
 }
