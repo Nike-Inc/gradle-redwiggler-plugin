@@ -21,7 +21,7 @@ class RedWigglerPluginSpec extends Specification {
         buildFile = testProjectDir.newFile('build.gradle')
     }
 
-    def swaggerFile(String source, String target) {
+    def apiFile(String source, String target) {
         Files.copy(getClass().getResourceAsStream(source), new File(testProjectDir.root, target).toPath())
     }
 
@@ -32,7 +32,7 @@ class RedWigglerPluginSpec extends Specification {
 
     def "sane defaults with swagger.yaml"() {
         given:
-        swaggerFile("simpleSwagger.yaml", "swagger.yaml")
+        apiFile("simpleSwagger.yaml", "swagger.yaml")
         def requestsDir = testProjectDir.newFolder("build", "redwiggler-data")
         def outputFile = new File(new File(testProjectDir.root, "build"), "redwiggler.html")
         buildFile << """
@@ -50,6 +50,7 @@ class RedWigglerPluginSpec extends Specification {
                 .withProjectDir(testProjectDir.root)
                 .withArguments('redwiggler', '--stacktrace')
                 .withPluginClasspath()
+                .forwardOutput()
                 .build()
 
 
@@ -66,7 +67,7 @@ class RedWigglerPluginSpec extends Specification {
 
     def "custom swagger location"() {
         given:
-        swaggerFile("simpleSwagger.yaml", "customSwaggerLocation.yaml")
+        apiFile("simpleSwagger.yaml", "customSwaggerLocation.yaml")
         def requestsDir = testProjectDir.newFolder("build", "redwiggler-data")
         def outputFile = new File(new File(testProjectDir.root, "build"), "redwiggler.html")
         buildFile << """
@@ -87,6 +88,7 @@ class RedWigglerPluginSpec extends Specification {
                 .withProjectDir(testProjectDir.root)
                 .withArguments('redwiggler', '--stacktrace')
                 .withPluginClasspath()
+                .forwardOutput()
                 .build()
 
         then:
@@ -95,6 +97,42 @@ class RedWigglerPluginSpec extends Specification {
         outputFile.exists()
         //shouldn't attach blueprint
         !result.task(":redwigglerBlueprintEndpointSpecificationProvider")
+
+        where:
+        gradleVersion << gradleVersions
+    }
+
+    def "sane defaults with API.md"() {
+        given:
+        apiFile("simpleApi.md", "API.md")
+        def requestsDir = testProjectDir.newFolder("build", "redwiggler-data")
+        def outputFile = new File(new File(testProjectDir.root, "build"), "redwiggler.html")
+        buildFile << """
+            plugins {
+                id 'com.nike.redwiggler'
+            }
+            repositories {
+                jcenter()
+            }
+        """
+
+        when:
+        def result = GradleRunner.create()
+                .withGradleVersion(gradleVersion)
+                .withProjectDir(testProjectDir.root)
+                .withArguments('redwiggler', '--stacktrace')
+                .withPluginClasspath()
+                .forwardOutput()
+                .build()
+
+
+        then:
+        result.task(":redwigglerInstallProtagonist").outcome == SUCCESS
+        result.task(":redwigglerBlueprintEndpointSpecificationProvider").outcome == SUCCESS
+        result.task(":redwiggler").outcome == SUCCESS
+        outputFile.exists()
+        //shouldn't attach blueprint
+        !result.task(":redwigglerSwaggerEndpointSpecificationProvider")
 
         where:
         gradleVersion << gradleVersions
@@ -122,6 +160,7 @@ class RedWigglerPluginSpec extends Specification {
                 .withProjectDir(testProjectDir.root)
                 .withArguments('compileJava')
                 .withPluginClasspath()
+                .forwardOutput()
                 .build()
 
         then:
