@@ -19,3 +19,4 @@ class RedWigglerPluginExtension {
         return [group: 'com.nike.redwiggler', name: 'redwiggler-' + name + '_2.12', version: toolVersion]
     }
 }
+

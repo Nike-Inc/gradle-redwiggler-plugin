@@ -4,9 +4,7 @@ import com.nike.redwiggler.gradle.RedWigglerPluginExtension
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
-class RedwigglerEndpointSpecificationProvider extends DefaultTask {
-
-    def endpointSpecificationProvider
+class SwaggerEndpointSpecificationProviderTask extends EndpointSpecificationTask {
 
     @TaskAction
     void findEndpointSpecificationProvider() {

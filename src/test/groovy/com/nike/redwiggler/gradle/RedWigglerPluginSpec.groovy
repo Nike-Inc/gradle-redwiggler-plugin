@@ -54,8 +54,11 @@ class RedWigglerPluginSpec extends Specification {
 
 
         then:
+        result.task(":redwigglerSwaggerEndpointSpecificationProvider").outcome == SUCCESS
         result.task(":redwiggler").outcome == SUCCESS
         outputFile.exists()
+        //shouldn't attach blueprint
+        !result.task(":redwigglerBlueprintEndpointSpecificationProvider")
 
         where:
         gradleVersion << gradleVersions
@@ -87,8 +90,11 @@ class RedWigglerPluginSpec extends Specification {
                 .build()
 
         then:
+        result.task(":redwigglerSwaggerEndpointSpecificationProvider").outcome == SUCCESS
         result.task(":redwiggler").outcome == SUCCESS
         outputFile.exists()
+        //shouldn't attach blueprint
+        !result.task(":redwigglerBlueprintEndpointSpecificationProvider")
 
         where:
         gradleVersion << gradleVersions

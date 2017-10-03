@@ -1,7 +1,9 @@
 package com.nike.redwiggler.gradle
 
+import com.nike.redwiggler.gradle.tasks.BlueprintEndpointSpecificationProviderTask
+import com.nike.redwiggler.gradle.tasks.EndpointSpecificationTask
 import com.nike.redwiggler.gradle.tasks.RedWigglerClasspathTask
-import com.nike.redwiggler.gradle.tasks.RedwigglerEndpointSpecificationProvider
+import com.nike.redwiggler.gradle.tasks.SwaggerEndpointSpecificationProviderTask
 import com.nike.redwiggler.gradle.tasks.RunRedWigglerReportTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -18,8 +20,6 @@ class RedWigglerPlugin implements Plugin<Project> {
 
         project.extensions.create('redwiggler', RedWigglerPluginExtension, project)
         project.tasks.create("redwigglerGenerateClasspath", RedWigglerClasspathTask)
-        project.tasks.create("redwigglerEndpointSpecificationProvider", RedwigglerEndpointSpecificationProvider)
-                .dependsOn("redwigglerGenerateClasspath")
         project.tasks.create("redwiggler", RunRedWigglerReportTask)
                 .dependsOn("redwigglerGenerateClasspath", "redwigglerEndpointSpecificationProvider")
 
@@ -32,6 +32,15 @@ class RedWigglerPlugin implements Plugin<Project> {
                 redwiggler group: 'com.nike.redwiggler', name: 'redwiggler-swagger_2.12', version: ext.toolVersion
                 redwiggler group: 'com.nike.redwiggler', name: 'redwiggler-reports-html_2.12', version: ext.toolVersion
                 redwiggler group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+            }
+            project.tasks.create("redwigglerEndpointSpecificationProvider", EndpointSpecificationTask)
+            if (ext.swaggerFile.exists()) {
+                println("Using swagger endpoint specificationProvider")
+                def task = project.tasks.create("redwigglerSwaggerEndpointSpecificationProvider", SwaggerEndpointSpecificationProviderTask)
+                        .dependsOn("redwigglerGenerateClasspath")
+                project.tasks.redwigglerEndpointSpecificationProvider.dependsOn(task).doLast {
+                    endpointSpecificationProvider = task.endpointSpecificationProvider
+                }
             }
         }
     }
