@@ -1,6 +1,5 @@
 package com.nike.redwiggler.gradle
 
-import com.nike.redwiggler.gradle.tasks.BlueprintEndpointSpecificationProviderTask
 import com.nike.redwiggler.gradle.tasks.EndpointSpecificationTask
 import com.nike.redwiggler.gradle.tasks.RedWigglerClasspathTask
 import com.nike.redwiggler.gradle.tasks.SwaggerEndpointSpecificationProviderTask

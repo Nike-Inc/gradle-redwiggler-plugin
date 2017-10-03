@@ -12,7 +12,7 @@ class RedWigglerPluginExtension {
         this.output = new File(project.getBuildDir(), "redwiggler.html")
         this.dataDirectory = new File(project.getBuildDir(), "redwiggler-data")
         this.swaggerFile = new File(project.rootDir, "swagger.yaml")
-        this.toolVersion = "0.5.1"
+        this.toolVersion = "0.5.4"
     }
 
     def dependency(String name) {
