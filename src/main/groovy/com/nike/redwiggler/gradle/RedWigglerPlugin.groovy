@@ -17,11 +17,11 @@ class RedWigglerPlugin implements Plugin<Project> {
         LOGGER.info('Running wiggler')
 
         project.extensions.create('redwiggler', RedWigglerPluginExtension, project)
-        project.tasks.create("redWigglerGenerateClasspath", RedWigglerClasspathTask)
-        project.tasks.create("redWigglerEndpointSpecificationProvider", RedwigglerEndpointSpecificationProvider)
-                .dependsOn("redWigglerGenerateClasspath")
-        project.tasks.create("runRedWigglerReport", RunRedWigglerReportTask)
-                .dependsOn("redWigglerGenerateClasspath", "redWigglerEndpointSpecificationProvider")
+        project.tasks.create("redwigglerGenerateClasspath", RedWigglerClasspathTask)
+        project.tasks.create("redwigglerEndpointSpecificationProvider", RedwigglerEndpointSpecificationProvider)
+                .dependsOn("redwigglerGenerateClasspath")
+        project.tasks.create("redwiggler", RunRedWigglerReportTask)
+                .dependsOn("redwigglerGenerateClasspath", "redwigglerEndpointSpecificationProvider")
 
         project.afterEvaluate {
             RedWigglerPluginExtension ext = project.extensions.redwiggler

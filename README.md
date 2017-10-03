@@ -25,7 +25,9 @@ Add the library `'redwiggler-gradle-plugin'` to the classpath of gradle build sc
 
 The plugin adds the following task:
 
-+ runRedWigglerReport : runs the contract test report based on the locations of the markdown and test results
++ redwiggler: runs the contract test report based on the locations of the markdown and test results
++ redwigglerGenerateClasspath: generated the classpath for redwiggler to run
++ redwigglerEndpointSpecificationProvider: creates the endpoint specification provider
 
 ## Configurations
     

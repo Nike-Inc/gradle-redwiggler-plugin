@@ -11,7 +11,7 @@ class RedwigglerEndpointSpecificationProvider extends DefaultTask {
     @TaskAction
     void findEndpointSpecificationProvider() {
         RedWigglerPluginExtension ext = project.redwiggler
-        def classloader = project.tasks.redWigglerGenerateClasspath.classLoader
+        def classloader = project.tasks.redwigglerGenerateClasspath.classLoader
         def SwaggerEndpointSpecificationProvider = classloader.loadClass("com.nike.redwiggler.swagger.SwaggerEndpointSpecificationProvider")
         endpointSpecificationProvider = SwaggerEndpointSpecificationProvider.apply(ext.swaggerFile)
     }

@@ -10,11 +10,11 @@ class RunRedWigglerReportTask extends DefaultTask {
     void generateReport() {
         RedWigglerPluginExtension ext = project.redwiggler
 
-        def classloader = project.tasks.redWigglerGenerateClasspath.classLoader
+        def classloader = project.tasks.redwigglerGenerateClasspath.classLoader
 
         def redwiggler = classloader.loadClass("com.nike.redwiggler.core.Redwiggler")
         def GlobEndpointCallProvider = classloader.loadClass("com.nike.redwiggler.core.GlobEndpointCallProvider")
-        def endpointSpecificationProvider = project.tasks.redWigglerEndpointSpecificationProvider.endpointSpecificationProvider
+        def endpointSpecificationProvider = project.tasks.redwigglerEndpointSpecificationProvider.endpointSpecificationProvider
         def HtmlReportProcessor = classloader.loadClass("com.nike.redwiggler.html.HtmlReportProcessor")
         redwiggler.apply(
                 GlobEndpointCallProvider.newInstance(ext.dataDirectory, ".*.json"),

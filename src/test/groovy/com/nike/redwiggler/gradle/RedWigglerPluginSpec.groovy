@@ -48,13 +48,13 @@ class RedWigglerPluginSpec extends Specification {
         def result = GradleRunner.create()
                 .withGradleVersion(gradleVersion)
                 .withProjectDir(testProjectDir.root)
-                .withArguments('runRedwigglerReport', '--stacktrace')
+                .withArguments('redwiggler', '--stacktrace')
                 .withPluginClasspath()
                 .build()
 
 
         then:
-        result.task(":runRedWigglerReport").outcome == SUCCESS
+        result.task(":redwiggler").outcome == SUCCESS
         outputFile.exists()
 
         where:
@@ -82,19 +82,19 @@ class RedWigglerPluginSpec extends Specification {
         def result = GradleRunner.create()
                 .withGradleVersion(gradleVersion)
                 .withProjectDir(testProjectDir.root)
-                .withArguments('runRedwigglerReport', '--stacktrace')
+                .withArguments('redwiggler', '--stacktrace')
                 .withPluginClasspath()
                 .build()
 
         then:
-        result.task(":runRedWigglerReport").outcome == SUCCESS
+        result.task(":redwiggler").outcome == SUCCESS
         outputFile.exists()
 
         where:
         gradleVersion << gradleVersions
     }
 
-    def "build dependency with sane defaults"() {
+    def "add redwiggler module to classpath"() {
         given:
         javaSource "TestJavaRestAssuredIntegration.java"
         buildFile << """
