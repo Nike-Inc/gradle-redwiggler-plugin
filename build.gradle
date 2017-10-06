@@ -32,7 +32,6 @@ dependencies {
 test {
     testLogging {
         events "passed", "skipped"
-        showStandardStreams true
     }
 }
 

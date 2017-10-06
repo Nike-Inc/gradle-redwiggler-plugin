@@ -4,6 +4,7 @@ import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import java.nio.file.Files
 
@@ -37,7 +38,8 @@ class RedWigglerPluginSpec extends Specification {
         Files.copy(getClass().getResourceAsStream(source), new File(java, source).toPath())
     }
 
-    def "sane defaults with swagger.yaml"() {
+    @Unroll
+    def "sane defaults with swagger.yaml with Gradle #gradleVersion"() {
         given:
         swaggerFile("simpleSwagger.yaml", "swagger.yaml")
         def requestsDir = testProjectDir.newFolder("build", "redwiggler-data")
@@ -71,7 +73,8 @@ class RedWigglerPluginSpec extends Specification {
         gradleVersion << gradleVersions
     }
 
-    def "custom swagger location"() {
+    @Unroll
+    def "custom swagger location with Gradle #gradleVersion"() {
         given:
         swaggerFile("simpleSwagger.yaml", "customSwaggerLocation.yaml")
         def requestsDir = testProjectDir.newFolder("build", "redwiggler-data")
@@ -107,7 +110,8 @@ class RedWigglerPluginSpec extends Specification {
         gradleVersion << gradleVersions
     }
 
-    def "finalizedBy redwiggler "() {
+    @Unroll
+    def "finalizedBy redwiggler with Gradle #gradleVersion"() {
         given:
         swaggerFile("simpleSwagger.yaml", "swagger.yaml")
         def requestsDir = testProjectDir.newFolder("build", "redwiggler-data")
@@ -140,7 +144,8 @@ class RedWigglerPluginSpec extends Specification {
         gradleVersion << gradleVersions
     }
 
-    def "add redwiggler module to classpath"() {
+    @Unroll
+    def "add redwiggler module to classpath with Gradle #gradleVersion"() {
         given:
         javaSource "TestJavaRestAssuredIntegration.java"
         buildFile << """
