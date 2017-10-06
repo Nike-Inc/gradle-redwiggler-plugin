@@ -14,13 +14,26 @@ This plugin requires gradle 3.3 or greater.
 ## Add to the [Classpath](https://docs.gradle.org/current/userguide/organizing_build_logic.html) of Gradle Build Script
 Add the library `'redwiggler-gradle-plugin'` to the classpath of gradle build script
 
+```groovy
     dependencies{
         classpath 'com.nike.redwiggler.gradle:gradle-redwiggler-plugin:<version>'
     }
+```
     
 ## Apply Plugin
     
+```groovy
     apply plugin: 'com.nike.redwiggler'
+```
+
+## Finalized by
+
+To run redwiggler when another task finishes:
+```groovy
+    task integrationTest {
+        finalizedBy tasks.redwiggler
+    }
+```
 
 ## Provided Tasks
 

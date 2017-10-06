@@ -7,7 +7,7 @@ import spock.lang.Specification
 
 import java.nio.file.Files
 
-import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
+import static org.gradle.testkit.runner.TaskOutcome.*
 
 /**
  * Copyright 2017-present, Nike, Inc.
@@ -102,6 +102,39 @@ class RedWigglerPluginSpec extends Specification {
         outputFile.exists()
         //shouldn't attach blueprint
         !result.task(":redwigglerBlueprintEndpointSpecificationProvider")
+
+        where:
+        gradleVersion << gradleVersions
+    }
+
+    def "finalizedBy redwiggler "() {
+        given:
+        swaggerFile("simpleSwagger.yaml", "swagger.yaml")
+        def requestsDir = testProjectDir.newFolder("build", "redwiggler-data")
+        def outputFile = new File(new File(testProjectDir.root, "build"), "redwiggler.html")
+        buildFile << """
+            plugins {
+                id 'com.nike.redwiggler'
+            }
+            repositories {
+                jcenter()
+            }
+            task foo {
+                finalizedBy tasks.redwiggler
+            }
+        """
+
+        when:
+        def result = GradleRunner.create()
+                .withGradleVersion(gradleVersion)
+                .withProjectDir(testProjectDir.root)
+                .withArguments('foo', '--stacktrace')
+                .withPluginClasspath()
+                .build()
+
+        then:
+        result.task(":foo").outcome == UP_TO_DATE
+        result.task(":redwiggler").outcome == SUCCESS
 
         where:
         gradleVersion << gradleVersions
