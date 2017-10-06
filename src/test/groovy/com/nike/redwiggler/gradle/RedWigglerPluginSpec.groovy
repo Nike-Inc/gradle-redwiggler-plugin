@@ -9,6 +9,13 @@ import java.nio.file.Files
 
 import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
 
+/**
+ * Copyright 2017-present, Nike, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree.
+ **/
 class RedWigglerPluginSpec extends Specification {
 
     @Rule
