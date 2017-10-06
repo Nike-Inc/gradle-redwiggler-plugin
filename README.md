@@ -1,6 +1,8 @@
 # RedWiggler contract testing plugin
 
-[![Build Status](https://travis-ci.com/Nike-Inc/gradle-redwiggler-plugin.svg?token=PmECSWCH8LFEKNdzr64F&branch=master)](https://travis-ci.com/Nike-Inc/gradle-redwiggler-plugin)
+[![Build Status](https://travis-ci.org/Nike-Inc/gradle-redwiggler-plugin.svg?branch=master)](https://travis-ci.org/Nike-Inc/gradle-redwiggler-plugin)
+[ ![Download](https://api.bintray.com/packages/nike/maven/gradle-redwiggler-plugin/images/download.svg) ](https://bintray.com/nike/maven/gradle-redwiggler-plugin/_latestVersion)
+[![Coverage Status](https://coveralls.io/repos/github/Nike-Inc/gradle-redwiggler-plugin/badge.svg?branch=coveralls)](https://coveralls.io/github/Nike-Inc/gradle-redwiggler-plugin?branch=coveralls)
 
 ## Overview
 
@@ -13,13 +15,26 @@ This plugin requires gradle 3.3 or greater.
 ## Add to the [Classpath](https://docs.gradle.org/current/userguide/organizing_build_logic.html) of Gradle Build Script
 Add the library `'redwiggler-gradle-plugin'` to the classpath of gradle build script
 
+```groovy
     dependencies{
         classpath 'com.nike.redwiggler.gradle:gradle-redwiggler-plugin:<version>'
     }
+```
     
 ## Apply Plugin
     
+```groovy
     apply plugin: 'com.nike.redwiggler'
+```
+
+## Finalized by
+
+To run redwiggler when another task finishes:
+```groovy
+    task integrationTest {
+        finalizedBy tasks.redwiggler
+    }
+```
 
 ## Provided Tasks
 

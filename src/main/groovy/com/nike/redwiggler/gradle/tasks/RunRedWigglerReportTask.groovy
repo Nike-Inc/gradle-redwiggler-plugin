@@ -4,6 +4,13 @@ import com.nike.redwiggler.gradle.RedWigglerPluginExtension
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 
+/**
+ * Copyright 2017-present, Nike, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree.
+ **/
 class RunRedWigglerReportTask extends DefaultTask {
 
     @TaskAction

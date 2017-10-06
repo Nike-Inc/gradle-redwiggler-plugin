@@ -4,11 +4,19 @@ import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
+import spock.lang.Unroll
 
 import java.nio.file.Files
 
-import static org.gradle.testkit.runner.TaskOutcome.SUCCESS
+import static org.gradle.testkit.runner.TaskOutcome.*
 
+/**
+ * Copyright 2017-present, Nike, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree.
+ **/
 class RedWigglerPluginSpec extends Specification {
 
     @Rule
@@ -30,7 +38,8 @@ class RedWigglerPluginSpec extends Specification {
         Files.copy(getClass().getResourceAsStream(source), new File(java, source).toPath())
     }
 
-    def "sane defaults with swagger.yaml"() {
+    @Unroll
+    def "sane defaults with swagger.yaml with Gradle #gradleVersion"() {
         given:
         apiFile("simpleSwagger.yaml", "swagger.yaml")
         def requestsDir = testProjectDir.newFolder("build", "redwiggler-data")
@@ -65,7 +74,8 @@ class RedWigglerPluginSpec extends Specification {
         gradleVersion << gradleVersions
     }
 
-    def "custom swagger location"() {
+    @Unroll
+    def "custom swagger location with Gradle #gradleVersion"() {
         given:
         apiFile("simpleSwagger.yaml", "customSwaggerLocation.yaml")
         def requestsDir = testProjectDir.newFolder("build", "redwiggler-data")
@@ -102,7 +112,8 @@ class RedWigglerPluginSpec extends Specification {
         gradleVersion << gradleVersions
     }
 
-    def "sane defaults with API.md"() {
+    @Unroll
+    def "sane defaults with API.md with Gradle #gradleVersion"() {
         given:
         apiFile("simpleApi.md", "API.md")
         def requestsDir = testProjectDir.newFolder("build", "redwiggler-data")
@@ -125,7 +136,6 @@ class RedWigglerPluginSpec extends Specification {
                 .forwardOutput()
                 .build()
 
-
         then:
         result.task(":redwigglerInstallProtagonist").outcome == SUCCESS
         result.task(":redwigglerBlueprintEndpointSpecificationProvider").outcome == SUCCESS
@@ -138,7 +148,42 @@ class RedWigglerPluginSpec extends Specification {
         gradleVersion << gradleVersions
     }
 
-    def "add redwiggler module to classpath"() {
+    @Unroll
+    def "finalizedBy redwiggler with Gradle #gradleVersion"() {
+        given:
+        apiFile("simpleSwagger.yaml", "swagger.yaml")
+        def requestsDir = testProjectDir.newFolder("build", "redwiggler-data")
+        def outputFile = new File(new File(testProjectDir.root, "build"), "redwiggler.html")
+        buildFile << """
+            plugins {
+                id 'com.nike.redwiggler'
+            }
+            repositories {
+                jcenter()
+            }
+            task foo {
+                finalizedBy tasks.redwiggler
+            }
+        """
+
+        when:
+        def result = GradleRunner.create()
+                .withGradleVersion(gradleVersion)
+                .withProjectDir(testProjectDir.root)
+                .withArguments('foo', '--stacktrace')
+                .withPluginClasspath()
+                .build()
+
+        then:
+        result.task(":foo").outcome == UP_TO_DATE
+        result.task(":redwiggler").outcome == SUCCESS
+
+        where:
+        gradleVersion << gradleVersions
+    }
+
+    @Unroll
+    def "add redwiggler module to classpath with Gradle #gradleVersion"() {
         given:
         javaSource "TestJavaRestAssuredIntegration.java"
         buildFile << """

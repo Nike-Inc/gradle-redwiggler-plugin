@@ -11,6 +11,13 @@ import org.gradle.api.Project
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+/**
+ * Copyright 2017-present, Nike, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree.
+ **/
 class RedWigglerPlugin implements Plugin<Project> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RedWigglerPlugin)
