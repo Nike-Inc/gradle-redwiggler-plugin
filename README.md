@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Nike-Inc/gradle-redwiggler-plugin.svg?branch=master)](https://travis-ci.org/Nike-Inc/gradle-redwiggler-plugin)
 [ ![Download](https://api.bintray.com/packages/nike/maven/gradle-redwiggler-plugin/images/download.svg) ](https://bintray.com/nike/maven/gradle-redwiggler-plugin/_latestVersion)
+[![Coverage Status](https://coveralls.io/repos/github/Nike-Inc/gradle-redwiggler-plugin/badge.svg?branch=coveralls)](https://coveralls.io/github/Nike-Inc/gradle-redwiggler-plugin?branch=coveralls)
 
 ## Overview
 
