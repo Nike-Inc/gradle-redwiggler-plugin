@@ -23,7 +23,7 @@ class RedWigglerPluginSpec extends Specification {
     final TemporaryFolder testProjectDir = new TemporaryFolder()
     File buildFile
 
-    static def gradleVersions = ['3.3', '3.4', '3.5', '4.0', '4.1', '4.2']
+    static def gradleVersions = ['2.9', '3.0', '3.1', '3.2', '3.3', '3.4', '3.5', '4.0', '4.1', '4.2']
 
     private def writeFile(String path, String text) {
         File file = new File(testProjectDir.root, path)

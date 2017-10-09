@@ -15,11 +15,21 @@ class RedWigglerClasspathTask extends DefaultTask {
     ClassLoader classLoader;
 
     @TaskAction
-    public void resolveClasspath() {
+    void resolveClasspath() {
         def resolvedConfiguration = project.configurations.redwiggler.resolvedConfiguration
-        def files = resolvedConfiguration.files
+        def files = resolvedConfiguration.resolvedArtifacts.collect {it.file}
+        files.forEach { System.out.println(it.getName())}
         def classpath = files.collect{it.toURI().toURL()}
-        classLoader = new URLClassLoader(classpath as URL[])
+        def parentClassloader = findRootClassLoader(getClass().getClassLoader())
+        classLoader = new URLClassLoader(classpath as URL[], parentClassloader)
+    }
+
+    private ClassLoader findRootClassLoader(ClassLoader parent) {
+        if (parent.getParent() == null) {
+            return parent;
+        } else {
+            return findRootClassLoader(parent.getParent())
+        }
     }
 
 }
