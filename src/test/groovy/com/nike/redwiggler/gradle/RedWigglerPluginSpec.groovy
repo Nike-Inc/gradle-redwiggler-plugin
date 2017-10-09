@@ -25,8 +25,16 @@ class RedWigglerPluginSpec extends Specification {
 
     static def gradleVersions = ['3.3', '3.4', '3.5', '4.0', '4.1', '4.2']
 
+    private def writeFile(String path, String text) {
+        File file = new File(testProjectDir.root, path)
+        file.parentFile.mkdirs()
+        file.text = text
+    }
+
     def setup() {
         buildFile = testProjectDir.newFile('build.gradle')
+        def url = getClass().getResource("/testkit-gradle.properties")
+        writeFile('gradle.properties', url.text)
     }
 
     def swaggerFile(String source, String target) {

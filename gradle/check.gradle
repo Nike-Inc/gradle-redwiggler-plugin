@@ -21,7 +21,7 @@ tasks.withType(FindBugs) {
 }
 
 jacoco {
-    toolVersion = "0.7.4.201502262128"
+    toolVersion = "0.7.6.201602180812"
     reportsDir = file("$buildDir/reports/jacoco")
 }
 
@@ -34,10 +34,9 @@ jacocoTestReport {
 }
 
 test {
-    jacoco {
-        append = false
-        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
-        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+    testLogging {
+        exceptionFormat = 'full'
+        events "passed", "skipped"
     }
 
     finalizedBy(project.tasks.jacocoTestReport)
@@ -46,5 +45,3 @@ test {
 pmd {
     toolVersion = "5.3.5"
 }
-
-
