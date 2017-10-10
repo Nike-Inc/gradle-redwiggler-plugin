@@ -18,7 +18,6 @@ class RedWigglerClasspathTask extends DefaultTask {
     void resolveClasspath() {
         def resolvedConfiguration = project.configurations.redwiggler.resolvedConfiguration
         def files = resolvedConfiguration.resolvedArtifacts.collect {it.file}
-        files.forEach { System.out.println(it.getName())}
         def classpath = files.collect{it.toURI().toURL()}
         def parentClassloader = findRootClassLoader(getClass().getClassLoader())
         classLoader = new URLClassLoader(classpath as URL[], parentClassloader)
