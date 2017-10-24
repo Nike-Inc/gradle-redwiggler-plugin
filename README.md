@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Nike-Inc/gradle-redwiggler-plugin.svg?branch=master)](https://travis-ci.org/Nike-Inc/gradle-redwiggler-plugin)
 [ ![Download](https://api.bintray.com/packages/nike/maven/gradle-redwiggler-plugin/images/download.svg) ](https://bintray.com/nike/maven/gradle-redwiggler-plugin/_latestVersion)
-[![Coverage Status](https://coveralls.io/repos/github/Nike-Inc/gradle-redwiggler-plugin/badge.svg?branch=coveralls)](https://coveralls.io/github/Nike-Inc/gradle-redwiggler-plugin?branch=coveralls)
+[![Coverage Status](https://coveralls.io/repos/github/Nike-Inc/gradle-redwiggler-plugin/badge.svg?branch=master)](https://coveralls.io/github/Nike-Inc/gradle-redwiggler-plugin?branch=master)
 
 ## Overview
 
@@ -10,7 +10,7 @@ Plugin to integrate [RedWiggler](https://github.com/Nike-Inc/redwiggler) in a gr
 
 ## Requirements
 
-This plugin requires gradle 3.3 or greater.
+This plugin requires gradle 2.9 or greater.
 
 ## Add to the [Classpath](https://docs.gradle.org/current/userguide/organizing_build_logic.html) of Gradle Build Script
 Add the library `'redwiggler-gradle-plugin'` to the classpath of gradle build script
