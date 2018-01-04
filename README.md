@@ -54,6 +54,7 @@ The configuration block is called "redwiggler" and accepts the following configu
 | dataDirectory   	| The directory where test results are logged. | build/redwiggler-data |
 | output   	| The directory where the test report should be saved. | build/redwiggler.html |
 | toolVersion | The version of RedWiggler to use. | 0.5.1 |
+| scalaVersion | The version of scala to use. | 2.11 |
 
 # Releasing
 
