@@ -119,6 +119,43 @@ class RedWigglerPluginSpec extends Specification {
     }
 
     @Unroll
+    def "custom scalaVersion with Gradle #gradleVersion"() {
+        given:
+        swaggerFile("simpleSwagger.yaml", "swagger.yaml")
+        def requestsDir = testProjectDir.newFolder("build", "redwiggler-data")
+        def outputFile = new File(new File(testProjectDir.root, "build"), "redwiggler.html")
+        buildFile << """
+            plugins {
+                id 'com.nike.redwiggler'
+            }
+            repositories {
+                jcenter()
+            }
+            redwiggler {
+                scalaVersion "2.11"
+            }
+        """
+
+        when:
+        def result = GradleRunner.create()
+                .withGradleVersion(gradleVersion)
+                .withProjectDir(testProjectDir.root)
+                .withArguments('redwiggler', '--stacktrace')
+                .withPluginClasspath()
+                .build()
+
+        then:
+        result.task(":redwigglerSwaggerEndpointSpecificationProvider").outcome == SUCCESS
+        result.task(":redwiggler").outcome == SUCCESS
+        outputFile.exists()
+        //shouldn't attach blueprint
+        !result.task(":redwigglerBlueprintEndpointSpecificationProvider")
+
+        where:
+        gradleVersion << gradleVersions
+    }
+
+    @Unroll
     def "finalizedBy redwiggler with Gradle #gradleVersion"() {
         given:
         swaggerFile("simpleSwagger.yaml", "swagger.yaml")
@@ -166,6 +203,38 @@ class RedWigglerPluginSpec extends Specification {
             apply plugin: 'java'
             dependencies {
                 compile redwiggler.dependency("restassured")
+            }
+        """
+
+        when:
+        def result = GradleRunner.create()
+                .withGradleVersion(gradleVersion)
+                .withProjectDir(testProjectDir.root)
+                .withArguments('compileJava')
+                .withPluginClasspath()
+                .build()
+
+        then:
+        result.task(":compileJava").outcome == SUCCESS
+
+        where:
+        gradleVersion << gradleVersions
+    }
+
+    @Unroll
+    def "add redwiggler module with custom scalaVersion to classpath with Gradle #gradleVersion"() {
+        given:
+        javaSource "TestJavaRestAssuredIntegration.java"
+        buildFile << """
+            plugins {
+                id 'com.nike.redwiggler'
+            }
+            repositories {
+                jcenter()
+            }
+            apply plugin: 'java'
+            dependencies {
+                compile redwiggler.dependency("restassured", "2.11")
             }
         """
 
